@@ -4,7 +4,7 @@ on: push
 
 jobs:
   build:
-    name: Build distribution 📦
+    name: Build distribution 
     runs-on: macos-14
 
     steps:
@@ -16,23 +16,19 @@ jobs:
 
       - name: Install system packages
         run: brew install pkg-config lua@5.1 libzip qt5 capnp
-      
-      - name: xcode tools
-        run: xcode-select --install
 
       - name: Setup system
-        run: |
-          export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
+        run: export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
 
       - name: Setup system 2
         run: export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
 
       - name: debug
-        run: xcrun --sdk macosx --show-sdk-path
+        run: /Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk
+
 
       - name: debug 2
         run: echo $SDKROOT
-
 
       - name: build
         run: python3.10 -m pip install -e .
