@@ -25,7 +25,12 @@ jobs:
 
 
       - name: debug 2
-        run: echo $SDKROOT
+        run: echo "${SDKROOT}"
+      - name: debug 3
+        run: xcode-select --install
+
+      - name: debug 4
+        run: xcodebuild -license accept
 
       - name: build
         run: python3.10 -m pip install -e .
