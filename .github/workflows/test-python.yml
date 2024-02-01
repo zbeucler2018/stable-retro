@@ -1,6 +1,6 @@
 name: Test Stable-Retro
 
-on: [pull_request, push]
+on: [pull_request] # push
 
 permissions:
   contents: read # to fetch code (actions/checkout)

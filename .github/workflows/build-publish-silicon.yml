@@ -15,7 +15,7 @@ jobs:
           python-version: "3.10"
 
       - name: Install system packages
-        run: brew install pkg-config lua@5.1 libzip qt5 capnp -yPATH
+        run: brew install pkg-config lua@5.1 libzip qt5 capnp -y
 
       - name: Install system packages
         run: echo PATH

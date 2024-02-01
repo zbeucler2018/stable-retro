@@ -1,6 +1,6 @@
 name: Test C++ Stable-Retro code
 
-on: [pull_request, push]
+on: [pull_request] # push
 
 permissions:
   contents: read # to fetch code (actions/checkout)
