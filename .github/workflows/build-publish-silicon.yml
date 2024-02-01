@@ -20,12 +20,13 @@ jobs:
       - name: Setup system
         run: |
           export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
+          export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
 
       - name: debug
         run: echo $PATH
 
       - name: debug 2
-        run: ls -la ~/
+        run: echo $SDKROOT
 
 
       - name: build
