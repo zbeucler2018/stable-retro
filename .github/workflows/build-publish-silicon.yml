@@ -17,8 +17,11 @@ jobs:
       - name: Install system packages
         run: brew install pkg-config lua@5.1 libzip qt5 capnp
 
-      - name: Install system packages
-        run: echo PATH
+      - name: debug
+        run: echo $PATH
+
+      - name: debug 2
+        run: ls -la ~/
 
       - name: Install pypa/build
         run: >-
