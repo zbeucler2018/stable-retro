@@ -18,7 +18,7 @@ jobs:
         run: brew install pkg-config lua@5.1 libzip qt5 capnp
       
       - name: xcode tools
-        run: $ xcode-select --install
+        run: xcode-select --install
 
       - name: Setup system
         run: |
