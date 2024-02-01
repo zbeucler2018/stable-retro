@@ -24,7 +24,7 @@ jobs:
         run: export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
 
       - name: debug
-        run: /Applications/Xcode_15.0.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.0.sdk
+        run: ls -la /Library/Developer/CommandLineTools/SDKs/ && export SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
 
 
       - name: debug 2
