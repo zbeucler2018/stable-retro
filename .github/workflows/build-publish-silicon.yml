@@ -18,7 +18,9 @@ jobs:
         run: brew install pkg-config lua@5.1 libzip qt5 capnp
 
       - name: Setup system
-        run: echo 'export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"' >> /Users/runner/.bash_profile
+        run: |
+          echo 'export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"' >> /Users/runner/.bash_profile
+          source .
 
       - name: debug
         run: echo $PATH
