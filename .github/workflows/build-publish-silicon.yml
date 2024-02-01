@@ -19,8 +19,7 @@ jobs:
 
       - name: Setup system
         run: |
-          echo 'export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"' >> /Users/runner/.bash_profile
-          source .
+          export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
 
       - name: debug
         run: echo $PATH
@@ -28,16 +27,20 @@ jobs:
       - name: debug 2
         run: ls -la ~/
 
-      - name: Install pypa/build
-        run: >-
-          python3 -m
-          pip install
-          build
-          --user
-      - name: Build a binary wheel and a source tarball
-        run: python3 -m build
-      - name: Store the distribution packages
-        uses: actions/upload-artifact@v3
-        with:
-          name: python-package-distributions
-          path: dist/
+
+      - name: build
+        run: python3.10 -m pip install -e .
+
+      # - name: Install pypa/build
+      #   run: >-
+      #     python3 -m
+      #     pip install
+      #     build
+      #     --user
+      # - name: Build a binary wheel and a source tarball
+      #   run: python3 -m build
+      # - name: Store the distribution packages
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: python-package-distributions
+      #     path: dist/
