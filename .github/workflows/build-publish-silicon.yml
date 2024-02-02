@@ -15,12 +15,13 @@ jobs:
           python-version: "3.10"
 
       - name: Install system packages
-        run: brew install pkg-config lua@5.1 libzip qt5 capnp
+        run: brew install pkg-config lua@5.1 libzip qt5 capnp cmake
 
       - name: Build project
         run: |
           export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
           export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+          make -j$(sysctl hw.ncpu | cut -d: -f2)
           python3.10 -m pip install -v .
 
       - name: Install packages
