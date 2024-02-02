@@ -17,24 +17,11 @@ jobs:
       - name: Install system packages
         run: brew install pkg-config lua@5.1 libzip qt5 capnp
 
-      - name: Setup system
-        run: export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
-
-      - name: Setup system 2
-        run: export SDKROOT="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk"
-
-
-      - name: debug 2
-        run: echo "${SDKROOT}"
-
-      # - name: debug 3
-      #   run: xcode-select --install
-
-      - name: debug 4
-        run: sudo xcodebuild -license accept
-
       - name: build
-        run: python3.10 -m pip install -e .
+        run: |
+          export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
+          export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+          python3.10 -m pip install -e .
 
       # - name: Install pypa/build
       #   run: >-
