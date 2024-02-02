@@ -21,7 +21,7 @@ jobs:
         run: |
           export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
           export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
-          make -j$(sysctl hw.ncpu | cut -d: -f2)
+          make -j$(sysctl hw.ncpu | cut -d: -f2) /Users/runner/work/stable-retro
           python3.10 -m pip install -v .
 
       - name: Install packages
