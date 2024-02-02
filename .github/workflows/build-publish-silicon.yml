@@ -25,14 +25,18 @@ jobs:
           export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
           export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
           python3 -m pip install -v .
-          make -j$(sysctl hw.ncpu | cut -d: -f2) retro
 
       - name: Install packages
-        run: python3 -m pip install --upgrade pip build wheel cmake
+        run: python3 -m pip install --upgrade pip build wheel
 
       - name: Build silicon wheel
         run: python3 -m build --wheel --sdist
 
       - name: Test
-        run: python3 -c "import retro"
+        run: |
+          python3 -m pip uninstall stable-retro -y
+          python3 -m pip install dist/*.whl
+          python3 -c "import retro"
 
+
+# make -j$(sysctl hw.ncpu | cut -d: -f2) retro
