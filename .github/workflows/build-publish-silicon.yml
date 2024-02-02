@@ -15,24 +15,23 @@ jobs:
           python-version: "3.10"
 
       - name: Install system packages
-        run: ls -la
-      #   run: brew install pkg-config lua@5.1 libzip qt5 capnp cmake
+        run: brew install pkg-config lua@5.1 libzip qt5 capnp cmake
 
-      # - name: Build project
-      #   run: |
-      #     export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
-      #     export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
-      #     make -j$(sysctl hw.ncpu | cut -d: -f2) /Users/runner/work/stable-retro
-      #     python3.10 -m pip install -v .
+      - name: Build project
+        run: |
+          export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
+          export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+          make -j$(sysctl hw.ncpu | cut -d: -f2) retro
+          python3.10 -m pip install -v .
 
-      # - name: Install packages
-      #   run: python3.10 -m pip install --upgrade pip build wheel
+      - name: Install packages
+        run: python3.10 -m pip install --upgrade pip build wheel
 
-      # - name: Build silicon wheel
-      #   run: python -m build --wheel --sdist
+      - name: Build silicon wheel
+        run: python -m build --wheel --sdist
 
-      # - name: Test
-      #   run: python -c "import retro"
+      - name: Test
+        run: python -c "import retro"
 
       # - name: Test
       #   run: |
