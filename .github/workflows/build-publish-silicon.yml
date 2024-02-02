@@ -23,10 +23,14 @@ jobs:
           export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
           python3.10 -m pip install -v .
 
+      - name: Install packages
+        run: python3.10 -m pip install --upgrade pip build wheel
+
       - name: Build silicon wheel
         run: |
           python -m build --wheel --sdist
           ls -la dist/
+
 
       # - name: Test
       #   run: |
