@@ -28,7 +28,7 @@ jobs:
           make -j$(sysctl hw.ncpu | cut -d: -f2) retro
 
       - name: Install packages
-        run: python3 -m pip install --upgrade pip build wheel
+        run: python3 -m pip install --upgrade pip build wheel cmake
 
       - name: Build silicon wheel
         run: python3 -m build --wheel --sdist
