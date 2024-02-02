@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-14
     strategy:
       matrix:
-        python-version: ['3.10']
+        python-version: ['3.10'] # Use only 3.10 now since I know 3.10 works
 
     steps:
       - uses: actions/checkout@v4
@@ -20,22 +20,25 @@ jobs:
       - name: Install system packages
         run: brew install pkg-config lua@5.1 libzip qt5 capnp cmake
 
+      - name: Install python packages
+        run: python3 -m pip install --upgrade pip build wheel
+
       - name: Build project
         run: |
           export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
           export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
           python3 -m pip install -v .
 
-      - name: Install packages
-        run: python3 -m pip install --upgrade pip build wheel
-
       - name: Build silicon wheel
         run: python3 -m build --wheel --sdist
+
+      - name: List dist/
+        run: ls -la dist/
 
       - name: Test
         run: |
           python3 -m pip uninstall stable-retro -y
-          python3 -m pip install dist/*.whl
+          python3 -m pip install --no-cache dist/*.whl
           python3 -c "import retro"
 
 
