@@ -39,7 +39,7 @@ jobs:
         run: |
           python3 -m pip uninstall stable-retro -y
           python3 -m pip install --no-cache dist/*.whl
-          python3 -c "import retro"
+          python3 -c 'import retro; env = retro.make("Airstriker-Genesis", render_mode="rgb_array"); env.reset(); print(env.step(env.action_space.sample())); env.close();'
 
 
 # make -j$(sysctl hw.ncpu | cut -d: -f2) retro
