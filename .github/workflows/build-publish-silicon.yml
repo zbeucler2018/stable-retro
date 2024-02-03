@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-14
     strategy:
       matrix:
-        python-version: ['3.10'] # Use only 3.10 now since I know 3.10 works
+        python-version: ['3.10', '3.11', '3.12'] # Use only 3.10 now since I know 3.10 works
 
     steps:
       - uses: actions/checkout@v4
