@@ -21,16 +21,16 @@ jobs:
         run: brew install pkg-config lua@5.1 libzip qt5 capnp cmake
 
       - name: Install python packages
-        run: python3 -m pip install --upgrade pip build wheel
+        run: python3 -m pip install --upgrade pip build wheel setuptools
 
       - name: Build project
         run: |
           export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
           export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
-          python3 -m pip install -v .
+          python3 setup.py bdist_wheel
 
-      - name: Build silicon wheel
-        run: python3 -m build --wheel --sdist
+      # - name: Build silicon wheel
+      #   run: python3 -m build --wheel --sdist
 
       - name: List dist/
         run: ls -la dist/
