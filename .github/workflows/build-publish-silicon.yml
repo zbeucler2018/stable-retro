@@ -27,7 +27,7 @@ jobs:
         run: |
           export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
           export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
-          python3 -m pip install -v -e .;
+          python3 -m pip install -e .;
 
       - name: Build wheel
         run: python3 -m build --wheel --sdist
@@ -41,5 +41,12 @@ jobs:
           python3 -m pip install --no-cache dist/*.whl
           python3 -c 'import retro; env = retro.make("Airstriker-Genesis", render_mode="rgb_array"); env.reset(); print(env.step(env.action_space.sample())); env.close();'
 
+      - name: Upload sdist
+        uses: actions/upload-artifact@v3
+        with:
+          path: dist/*.tar.gz
 
-# make -j$(sysctl hw.ncpu | cut -d: -f2) retro
+      - name: Upload wheel
+        uses: actions/upload-artifact@v3
+        with:
+          path: dist/*.whl
