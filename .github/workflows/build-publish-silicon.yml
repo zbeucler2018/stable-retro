@@ -41,7 +41,11 @@ jobs:
           python3 -m pip install --no-cache dist/*.whl
           python3 -c 'import retro; env = retro.make("Airstriker-Genesis", render_mode="rgb_array"); env.reset(); print(env.step(env.action_space.sample())); env.close();'
 
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository_url: https://test.pypi.org/legacy/
+      - name: Publish to Test PyPI
+        run: |
+          python3 -m pip install twine
+          twine upload --repository testpypi dist/*
+
+        # uses: pypa/gh-action-pypi-publish@release/v1
+        # with:
+        #   repository_url: https://test.pypi.org/legacy/
