@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-14
     strategy:
       matrix:
-        python-version: ['3.10', '3.11', '3.12'] # Use only 3.10 now since I know 3.10 works
+        python-version: ['3.10'] #, '3.11', '3.12'] # Use only 3.10 now since I know 3.10 works
 
     steps:
       - uses: actions/checkout@v4
@@ -41,12 +41,7 @@ jobs:
           python3 -m pip install --no-cache dist/*.whl
           python3 -c 'import retro; env = retro.make("Airstriker-Genesis", render_mode="rgb_array"); env.reset(); print(env.step(env.action_space.sample())); env.close();'
 
-      - name: Upload sdist
-        uses: actions/upload-artifact@v3
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          path: dist/*.tar.gz
-
-      - name: Upload wheel
-        uses: actions/upload-artifact@v3
-        with:
-          path: dist/*.whl
+          repository_url: https://test.pypi.org/legacy/
