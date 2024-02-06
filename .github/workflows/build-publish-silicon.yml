@@ -26,14 +26,13 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install system packages
-        run: brew install pkg-config lua@5.1 libzip qt5 capnp cmake
+        run: brew install pkg-config lua@5.1 libzip capnp cmake
 
       - name: Install python packages
         run: python3 -m pip install --upgrade pip build wheel
 
       - name: Build project
         run: |
-          export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"
           export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
           python3 -m pip install -e .;
 
