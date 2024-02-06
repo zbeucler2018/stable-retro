@@ -14,7 +14,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-11] # - disable macos, as it's not working for a moment
+        os: [macos-latest] # - disable macos, as it's not working for a moment
 
     steps:
       - uses: actions/checkout@v3
