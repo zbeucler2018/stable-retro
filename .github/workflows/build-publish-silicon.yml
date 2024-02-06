@@ -1,17 +1,24 @@
 name: build-publish-silicon
 
-on: push
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  release:
+    types: [published]
 
 jobs:
-  build:
-    name: Build distribution 
+  build_wheel_sdist:
+    name: Build silicon wheel and sdist
     runs-on: macos-14
     strategy:
       matrix:
-        python-version: ['3.10'] #, '3.11', '3.12'] # Use only 3.10 now since I know 3.10 works
-
+        python-version: ['3.10', '3.11', '3.12']
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -32,20 +39,32 @@ jobs:
       - name: Build wheel
         run: python3 -m build --wheel --sdist
 
-      - name: List dist/
-        run: ls -la dist/
-
       - name: Test
         run: |
           python3 -m pip uninstall stable-retro -y
           python3 -m pip install --no-cache dist/*.whl
           python3 -c 'import retro; env = retro.make("Airstriker-Genesis", render_mode="rgb_array"); env.reset(); print(env.step(env.action_space.sample())); env.close();'
 
-      - name: Publish to Test PyPI
-        run: |
-          python3 -m pip install twine
-          twine upload --repository testpypi dist/*
+  upload_pypi:
+    needs: build_wheel_sdist
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    if: github.event_name == 'release' && github.event.action == 'published'
+    steps:
+      - name: Download all dists
+        uses: actions/download-artifact@v3
+        with:
+          # Unpacks default artifact into dist/
+          # If `name: artifact` is omitted, the action will create extra parent dir
+          name: artifact
+          path: dist
 
-        # uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+        # To test:
         # with:
         #   repository_url: https://test.pypi.org/legacy/
