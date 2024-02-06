@@ -1,4 +1,5 @@
 name: build-publish-silicon
+on: push
 
 # on:
 #   workflow_dispatch:
