@@ -45,6 +45,15 @@ jobs:
           python3 -m pip install --no-cache dist/*.whl
           python3 -c 'import retro; env = retro.make("Airstriker-Genesis", render_mode="rgb_array"); env.reset(); print(env.step(env.action_space.sample())); env.close();'
 
+  upload_pypi:
+    needs: build_wheel_sdist
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: report dist
+        run: ls -la dist/
+
+        
   # upload_pypi:
   #   needs: build_wheel_sdist
   #   runs-on: ubuntu-latest
