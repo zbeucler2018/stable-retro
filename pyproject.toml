@@ -18,5 +18,5 @@ manylinux-x86_64-image = "manylinux_2_28"
 manylinux-aarch64-image = "manylinux_2_28"
 
 [tool.cibuildwheel.macos]
-before-all = "brew install pkg-config capnp lua@5.1 cmake"
+before-all = "brew install pkg-config capnp lua@5.1 cmake libzip"
 environment = { SDKROOT="$(xcrun --sdk macosx --show-sdk-path)" }
