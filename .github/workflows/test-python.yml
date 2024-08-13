@@ -46,26 +46,23 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-      
-      - name: test
-        run: which Xvfb
 
-      # - name: Install system packages
-      #   run: |
-      #     export HOMEBREW_NO_AUTO_UPDATE=1
-      #     brew install pkg-config libzip capnp cmake
-      #     brew fetch lua@5.1
-      #     brew install "$(brew --cache lua@5.1)"
+      - name: Install system packages
+        run: |
+          export HOMEBREW_NO_AUTO_UPDATE=1
+          brew install pkg-config libzip capnp cmake
+          brew fetch lua@5.1
+          brew install "$(brew --cache lua@5.1)"
 
 
-      # - name: Install pip packages
-      #   run: python3 -m pip install --upgrade pip pytest
+      - name: Install pip packages
+        run: python3 -m pip install --upgrade pip pytest
           
-      # - name: Build package
-      #   run: |
-      #     export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
-      #     python3 -m pip install -e .
+      - name: Build package
+        run: |
+          export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+          python3 -m pip install -e .
 
-      # - name: Run tests
-      #   run: |
-      #     xvfb-run -s '-screen 0 1024x768x24' pytest
+      - name: Run tests
+        run: |
+          pytest
