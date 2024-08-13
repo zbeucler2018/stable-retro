@@ -6,7 +6,7 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
-  # build_ubuntu:
+  # test_ubuntu:
   #   runs-on: ubuntu-latest  # todo, add more OS systems to see if they work as well
   #   strategy:
   #     matrix:
@@ -34,11 +34,11 @@ jobs:
   #         xvfb-run -s '-screen 0 1024x768x24' pytest
 
       
-  build_macos:
+  test_macos:
     runs-on: macos-14
     strategy:
       matrix:
-        python-version: ['3.8'] # ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
 
     steps:
       - uses: actions/checkout@v3
