@@ -1,79 +1,79 @@
-name: build-publish-silicon
-on: push
+# name: build-publish-silicon
+# on: push
 
-# on:
-#   workflow_dispatch:
-#   push:
-#     branches: [master]
-#   pull_request:
-#     branches: [master]
-#   release:
-#     types: [published]
+# # on:
+# #   workflow_dispatch:
+# #   push:
+# #     branches: [master]
+# #   pull_request:
+# #     branches: [master]
+# #   release:
+# #     types: [published]
 
-jobs:
-  build_wheel_sdist:
-    name: Build silicon wheel and sdist
-    runs-on: macos-latest
-    strategy:
-      matrix:
-        python-version: ['3.10', '3.11', '3.12']
-    steps:
-      - uses: actions/checkout@v4
+# jobs:
+#   build_wheel_sdist:
+#     name: Build silicon wheel and sdist
+#     runs-on: macos-latest
+#     strategy:
+#       matrix:
+#         python-version: ['3.10', '3.11', '3.12']
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
+#       - name: Set up Python
+#         uses: actions/setup-python@v4
+#         with:
+#           python-version: ${{ matrix.python-version }}
 
-      - name: Install system packages
-        run: brew install pkg-config lua@5.1 libzip capnp cmake
+#       - name: Install system packages
+#         run: brew install pkg-config lua@5.1 libzip capnp cmake
 
-      - name: Install python packages
-        run: python3 -m pip install --upgrade pip build wheel
+#       - name: Install python packages
+#         run: python3 -m pip install --upgrade pip build wheel
 
-      - name: Build project
-        run: |
-          export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
-          python3 -m pip install -e .;
+#       - name: Build project
+#         run: |
+#           export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+#           python3 -m pip install -e .;
 
-      - name: Build wheel
-        run: python3 -m build --wheel --sdist
+#       - name: Build wheel
+#         run: python3 -m build --wheel --sdist
 
-      - name: Test
-        run: |
-          python3 -m pip uninstall stable-retro -y
-          python3 -m pip install --no-cache dist/*.whl
-          python3 -c 'import retro; env = retro.make("Airstriker-Genesis", render_mode="rgb_array"); env.reset(); print(env.step(env.action_space.sample())); env.close();'
+#       - name: Test
+#         run: |
+#           python3 -m pip uninstall stable-retro -y
+#           python3 -m pip install --no-cache dist/*.whl
+#           python3 -c 'import retro; env = retro.make("Airstriker-Genesis", render_mode="rgb_array"); env.reset(); print(env.step(env.action_space.sample())); env.close();'
 
-  upload_pypi:
-    needs: build_wheel_sdist
-    runs-on: ubuntu-latest
+#   upload_pypi:
+#     needs: build_wheel_sdist
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: report dist
-        run: ls -la
+#     steps:
+#       - name: report dist
+#         run: ls -la
 
         
-  # upload_pypi:
-  #   needs: build_wheel_sdist
-  #   runs-on: ubuntu-latest
-  #   environment: pypi
-  #   permissions:
-  #     id-token: write
-  #   if: github.event_name == 'release' && github.event.action == 'published'
-  #   steps:
-  #     - name: Download all dists
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         # Unpacks default artifact into dist/
-  #         # If `name: artifact` is omitted, the action will create extra parent dir
-  #         name: artifact
-  #         path: dist
+#   # upload_pypi:
+#   #   needs: build_wheel_sdist
+#   #   runs-on: ubuntu-latest
+#   #   environment: pypi
+#   #   permissions:
+#   #     id-token: write
+#   #   if: github.event_name == 'release' && github.event.action == 'published'
+#   #   steps:
+#   #     - name: Download all dists
+#   #       uses: actions/download-artifact@v3
+#   #       with:
+#   #         # Unpacks default artifact into dist/
+#   #         # If `name: artifact` is omitted, the action will create extra parent dir
+#   #         name: artifact
+#   #         path: dist
 
-  #     - name: Publish to PyPI
-  #       uses: pypa/gh-action-pypi-publish@release/v1
-  #       with:
-  #         password: ${{ secrets.PYPI_API_TOKEN }}
-  #       # To test:
-  #       # with:
-  #       #   repository_url: https://test.pypi.org/legacy/
+#   #     - name: Publish to PyPI
+#   #       uses: pypa/gh-action-pypi-publish@release/v1
+#   #       with:
+#   #         password: ${{ secrets.PYPI_API_TOKEN }}
+#   #       # To test:
+#   #       # with:
+#   #       #   repository_url: https://test.pypi.org/legacy/
