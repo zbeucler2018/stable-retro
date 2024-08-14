@@ -6,36 +6,8 @@ permissions:
   contents: read # to fetch code (actions/checkout)
 
 jobs:
-  # test_ubuntu:
-  #   runs-on: ubuntu-latest  # todo, add more OS systems to see if they work as well
-  #   strategy:
-  #     matrix:
-  #       python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
-
-  #   steps:
-  #     - uses: actions/checkout@v3
-
-  #     - uses: actions/setup-python@v4
-  #       with:
-  #         python-version: ${{ matrix.python-version }}
-
-  #     - name: Install system packages
-  #       run: |
-  #         sudo apt-get update
-  #         sudo apt-get install git cmake capnproto zlib1g-dev build-essential pkg-config libzip-dev software-properties-common libbz2-dev xvfb python3-opengl
-
-  #     - name: Install pip packages
-  #       run: |
-  #         python3 -m pip install --upgrade pip pytest
-  #         python3 -m pip install -e .
-
-  #     - name: Run tests
-  #       run: |
-  #         xvfb-run -s '-screen 0 1024x768x24' pytest
-
-      
-  test_macos:
-    runs-on: macos-14
+  test_ubuntu:
+    runs-on: ubuntu-latest  # todo, add more OS systems to see if they work as well
     strategy:
       matrix:
         python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
@@ -49,20 +21,48 @@ jobs:
 
       - name: Install system packages
         run: |
-          export HOMEBREW_NO_AUTO_UPDATE=1
-          brew install pkg-config libzip capnp cmake
-          brew fetch lua@5.1
-          brew install "$(brew --cache lua@5.1)"
-
+          sudo apt-get update
+          sudo apt-get install git cmake capnproto zlib1g-dev build-essential pkg-config libzip-dev software-properties-common libbz2-dev xvfb python3-opengl
 
       - name: Install pip packages
-        run: python3 -m pip install --upgrade pip pytest
-          
-      - name: Build package
         run: |
-          export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+          python3 -m pip install --upgrade pip pytest
           python3 -m pip install -e .
 
       - name: Run tests
         run: |
-          pytest
+          xvfb-run -s '-screen 0 1024x768x24' pytest
+
+      
+  # test_macos:
+  #   runs-on: macos-14
+  #   strategy:
+  #     matrix:
+  #       python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - uses: actions/setup-python@v4
+  #       with:
+  #         python-version: ${{ matrix.python-version }}
+
+  #     - name: Install system packages
+  #       run: |
+  #         export HOMEBREW_NO_AUTO_UPDATE=1
+  #         brew install pkg-config libzip capnp cmake
+  #         brew fetch lua@5.1
+  #         brew install "$(brew --cache lua@5.1)"
+
+
+  #     - name: Install pip packages
+  #       run: python3 -m pip install --upgrade pip pytest
+          
+  #     - name: Build package
+  #       run: |
+  #         export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+  #         python3 -m pip install -e .
+
+  #     - name: Run tests
+  #       run: |
+  #         pytest
