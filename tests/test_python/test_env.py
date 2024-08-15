@@ -42,7 +42,8 @@ def generate_test_env(request):
 
     yield create
 
-    created_env[0].close()
+    if created_env[0]:
+        created_env[0].close()
     del created_env
 
     retro.data.get_file_path = get_file_path_fn
