@@ -6,6 +6,8 @@ import pytest
 import retro
 
 
+is_apple_silicon = platform.system() == "Darwin" and platform.machine() == "arm64"
+
 @pytest.fixture(
     params=[
         os.path.splitext(rom)[0]
