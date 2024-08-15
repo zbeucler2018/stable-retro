@@ -1,4 +1,5 @@
 import os
+import platform
 
 import pytest
 
@@ -15,6 +16,9 @@ def generate_test_env(request):
     import retro.data
 
     path = os.path.join(os.path.dirname(__file__), "../roms")
+
+    if request.param == "dox-fire" and is_apple_silicon:
+        pytest.skip("Cannot create environment for 'dox-fire' on apple silicon since the gb emulator isn't supported")
 
     get_file_path_fn = retro.data.get_file_path
     get_romfile_path_fn = retro.data.get_romfile_path

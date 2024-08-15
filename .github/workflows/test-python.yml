@@ -34,35 +34,35 @@ jobs:
           xvfb-run -s '-screen 0 1024x768x24' pytest
 
       
-  # test_macos:
-  #   runs-on: macos-14
-  #   strategy:
-  #     matrix:
-  #       python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+  test_macos:
+    runs-on: macos-14
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
 
-  #   steps:
-  #     - uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v3
 
-  #     - uses: actions/setup-python@v4
-  #       with:
-  #         python-version: ${{ matrix.python-version }}
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
 
-  #     - name: Install system packages
-  #       run: |
-  #         export HOMEBREW_NO_AUTO_UPDATE=1
-  #         brew install pkg-config libzip capnp cmake
-  #         brew fetch lua@5.1
-  #         brew install "$(brew --cache lua@5.1)"
+      - name: Install system packages
+        run: |
+          export HOMEBREW_NO_AUTO_UPDATE=1
+          brew install pkg-config libzip capnp cmake
+          brew fetch lua@5.1
+          brew install "$(brew --cache lua@5.1)"
 
 
-  #     - name: Install pip packages
-  #       run: python3 -m pip install --upgrade pip pytest
+      - name: Install pip packages
+        run: python3 -m pip install --upgrade pip pytest
           
-  #     - name: Build package
-  #       run: |
-  #         export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
-  #         python3 -m pip install -e .
+      - name: Build package
+        run: |
+          export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+          python3 -m pip install -e .
 
-  #     - name: Run tests
-  #       run: |
-  #         pytest
+      - name: Run tests
+        run: |
+          pytest
